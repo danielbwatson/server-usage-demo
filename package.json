@@ -1,0 +1,34 @@
+{
+  "name": "demo-flux-react",
+  "version": "0.0.1",
+  "description": "Demo application architecture with flux and reactjs",
+  "main": "js/app.js",
+  "dependencies": {
+    "duplex-emitter": "^2.1.2",
+    "ecstatic": "^0.5.3",
+    "es6-promise": "~0.1.1",
+    "react": "~0.10",
+    "reconnect": "^2.0.0",
+    "shoe": "0.0.15",
+    "sock": "0.0.6",
+    "through": "^2.3.4"
+  },
+  "devDependencies": {
+    "browserify": "~2.36.0",
+    "envify": "~1.2.0",
+    "reactify": "~0.4.0",
+    "watchify": "~0.4.1"
+  },
+  "scripts": {
+    "start": "node ./server.js",
+    "watch": "watchify -o static/js/bundle.js -v -d -e static/js/app.js"
+  },
+  "author": "Daniel Watson",
+  "license": "Apache 2",
+  "browserify": {
+    "transform": [
+      "reactify",
+      "envify"
+    ]
+  }
+}
