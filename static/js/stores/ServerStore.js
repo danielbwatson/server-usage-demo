@@ -24,12 +24,12 @@ var ServerConstants = require('../constants/ServerConstants');
 
 var CHANGE_EVENT = 'change';
 
-var _servers = [];
-var _server = null;
+var serverList = [];
+var wsServer = null;
 
 function initializeApp() {
     reconnect(function (stream) {
-        var server = _server = duplexEmitter(stream);
+        var server = wsServer = duplexEmitter(stream);
 
         server.on('server-list', function (list) {
             AppDispatcher.handleServerInitiatedAction({
@@ -42,7 +42,7 @@ function initializeApp() {
 
 var ServerStore = merge(EventEmitter.prototype, {
     getServerList:function () {
-        return _servers;
+        return serverList;
     },
 
     emitChange:function () {
@@ -75,15 +75,15 @@ AppDispatcher.register(function (payload) {
             break;
 
         case ServerConstants.INCOMING_SERVER_STATUS_LIST:
-            _servers = action.serverList;
+            serverList = action.serverList;
             break;
 
         case ServerConstants.RESTART_SERVER_REQUEST:
-            _server.emit('restart-server', action.serverId)
+            wsServer.emit('restart-server', action.serverId)
             break;
 
         case ServerConstants.DESTROY_SERVER_REQUEST:
-            _server.emit('destroy-server', action.serverId)
+            wsServer.emit('destroy-server', action.serverId)
             break;
 
         default:
